@@ -248,6 +248,10 @@
       animation: panel-enter 240ms ease both;
     }
 
+    .tabs > .tab-panel + .tab-panel {
+      margin-top: 0;
+    }
+
     .tab-panel[hidden] {
       display: none;
     }
@@ -342,10 +346,11 @@
       padding: 1.1rem 1.2rem 1.3rem;
     }
 
-    .card h3 {
+    .card h2 {
       margin-bottom: 0.35rem;
       color: var(--ink);
       font-size: 1.15rem;
+      letter-spacing: -0.02em;
       line-height: 1.3;
     }
 
@@ -444,75 +449,80 @@
   </header>
 
   <main class="wrap" id="start">
-    <section class="intro" aria-labelledby="intro-title">
-      <div class="intro-copy">
-        <p class="eyebrow">Hallo, schön, dass du da bist</p>
-        <h1 id="intro-title">Ich bin Johanna und studiere Geoinformatik und Vermessung.</h1>
-        <p>Im Studium verbinde ich Geografie, Vermessung und Informatik. Mich interessiert, wie sich räumliche Daten präzise erfassen, auswerten und in verständliche Karten verwandeln lassen.</p>
-        <p>Hier teile ich Einblicke in mein Studium und Themen, die mich besonders interessieren: von der Arbeit im Gelände bis zu digitalen Geodaten und Karten.</p>
+    <div class="tabs">
+      <div class="tab-list" role="tablist" aria-label="Hauptbereiche">
+        <button class="tab" id="tab-about" type="button" role="tab" aria-selected="true" aria-controls="panel-about" tabindex="0">About</button>
+        <button class="tab" id="tab-news" type="button" role="tab" aria-selected="false" aria-controls="panel-news" tabindex="-1">News</button>
+        <button class="tab" id="tab-projects" type="button" role="tab" aria-selected="false" aria-controls="panel-projects" tabindex="-1">Projects</button>
       </div>
-      <figure class="portrait">
-        <img src="assets/me.jpg" alt="Porträt von Johanna Beispiel" width="640" height="800">
-        <figcaption>Unterwegs, aufmerksam und am liebsten mit Kamera.</figcaption>
-      </figure>
-    </section>
 
-    <section aria-labelledby="overview-title">
-      <p class="eyebrow">Ein kurzer Überblick</p>
-      <h2 id="overview-title">Stationen &amp; Interessen</h2>
-      <div class="tabs">
-        <div class="tab-list" role="tablist" aria-label="Seiteninhalte">
-          <button class="tab" id="tab-journey" type="button" role="tab" aria-selected="true" aria-controls="panel-journey" tabindex="0">Meine Stationen</button>
-          <button class="tab" id="tab-inspiration" type="button" role="tab" aria-selected="false" aria-controls="panel-inspiration" tabindex="-1">Meine Interessen</button>
-        </div>
-        <div class="tab-panel" id="panel-journey" role="tabpanel" aria-labelledby="tab-journey" tabindex="0">
-          <p class="section-intro">Etappen, die meinen Blick auf Raum und Landschaft geprägt haben.</p>
-          <div class="table-scroll">
-            <table>
-              <caption>Werdegang von Johanna</caption>
-              <thead>
-                <tr>
-                  <th scope="col">Jahr</th>
-                  <th scope="col">Station</th>
-                  <th scope="col">Ort</th>
-                  <th scope="col">Stichwort</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td>2024</td><td>Abitur</td><td>Vallendar</td><td>Schönstätter Marienschule</td></tr>
-                <tr><td>2024</td><td>Studienbeginn</td><td>Mainz</td><td>Hochschule Mainz</td></tr>
-              </tbody>
-            </table>
+      <section class="tab-panel" id="panel-about" role="tabpanel" aria-labelledby="tab-about" tabindex="0">
+        <div class="intro">
+          <div class="intro-copy">
+            <p class="eyebrow">Hallo, schön, dass du da bist</p>
+            <h1 id="intro-title">Ich bin Johanna und studiere Geoinformatik und Vermessung.</h1>
+            <p>Im Studium verbinde ich Geografie, Vermessung und Informatik. Mich interessiert, wie sich räumliche Daten präzise erfassen, auswerten und in verständliche Karten verwandeln lassen.</p>
+            <p>Hier teile ich Einblicke in mein Studium und Themen, die mich besonders interessieren: von der Arbeit im Gelände bis zu digitalen Geodaten und Karten.</p>
           </div>
+          <figure class="portrait">
+            <img src="assets/me.jpg" alt="Porträt von Johanna Beispiel" width="640" height="800">
+            <figcaption>Unterwegs, aufmerksam und am liebsten mit Kamera.</figcaption>
+          </figure>
         </div>
-        <div class="tab-panel" id="panel-inspiration" role="tabpanel" aria-labelledby="tab-inspiration" tabindex="0" hidden>
-          <p class="section-intro">Karten, Vermessung im Gelände und digitale Geodaten – drei spannende Seiten meines Studienfachs.</p>
-          <div class="gallery">
-            <a class="card" href="https://www.openstreetmap.org/" target="_blank" rel="noopener noreferrer">
-              <img src="https://images.unsplash.com/photo-1520299607509-dcd935f9a839?w=900&amp;auto=format&amp;fit=crop&amp;q=60&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dG9wb2dyYXBoaWMlMjBtYXB8ZW58MHx8MHx8fDA%3D" alt="Illustration einer Karte" width="900" height="563" loading="lazy">
-              <div class="card-copy">
-                <h3>Kartografie &amp; offene Karten</h3>
-                <p>Mit OpenStreetMap gemeinsam Geodaten sammeln und Karten gestalten.</p>
-              </div>
-            </a>
-            <a class="card" href="https://unsplash.com/s/photos/surveying-equipment" target="_blank" rel="noopener noreferrer">
-              <img src="https://images.unsplash.com/photo-1778041582108-2e765e738c8a?w=900&amp;auto=format&amp;fit=crop&amp;q=60&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHN1cnZleWluZyUyMGVxdWlwbWVudHxlbnwwfHwwfHx8MA%3D%3D" alt="Vermessungsinstrument im Gelände" width="900" height="563" loading="lazy">
-              <div class="card-copy">
-                <h3>Vermessung im Gelände</h3>
-                <p>Mit präzisen Messungen die Umgebung erfassen und dokumentieren.</p>
-              </div>
-            </a>
-            <a class="card" href="https://qgis.org/" target="_blank" rel="noopener noreferrer">
-              <img src="https://images.unsplash.com/photo-1628158088791-89567a8e84ec?w=900&amp;auto=format&amp;fit=crop&amp;q=60&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHN1cnZleWluZyUyMGVxdWlwbWVudHxlbnwwfHwwfHx8fDA%3D" alt="Vermesser mit Messstab bei der Arbeit im Gelände" width="900" height="563" loading="lazy">
-              <div class="card-copy">
-                <h3>Geodaten &amp; GIS</h3>
-                <p>Räumliche Daten analysieren und mit QGIS sichtbar machen.</p>
-              </div>
-            </a>
-          </div>
+      </section>
+
+      <section class="tab-panel" id="panel-news" role="tabpanel" aria-labelledby="tab-news" tabindex="0" hidden>
+        <p class="eyebrow">News</p>
+        <h1>Neuigkeiten &amp; Stationen</h1>
+        <p class="section-intro">Ein Rückblick auf wichtige Etappen meines bisherigen Weges.</p>
+        <div class="table-scroll">
+          <table>
+            <caption>Werdegang von Johanna</caption>
+            <thead>
+              <tr>
+                <th scope="col">Jahr</th>
+                <th scope="col">Station</th>
+                <th scope="col">Ort</th>
+                <th scope="col">Stichwort</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>2024</td><td>Abitur</td><td>Vallendar</td><td>Schönstätter Marienschule</td></tr>
+              <tr><td>2024</td><td>Studienbeginn</td><td>Mainz</td><td>Hochschule Mainz</td></tr>
+            </tbody>
+          </table>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <section class="tab-panel" id="panel-projects" role="tabpanel" aria-labelledby="tab-projects" tabindex="0" hidden>
+        <p class="eyebrow">Projects</p>
+        <h1>Karten, Vermessung &amp; Geodaten</h1>
+        <p class="section-intro">Themen und digitale Werkzeuge, die mich in der Geoinformatik besonders interessieren.</p>
+        <div class="gallery">
+          <a class="card" href="https://www.openstreetmap.org/" target="_blank" rel="noopener noreferrer">
+            <img src="https://images.unsplash.com/photo-1520299607509-dcd935f9a839?w=900&amp;auto=format&amp;fit=crop&amp;q=60&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dG9wb2dyYXBoaWMlMjBtYXB8ZW58MHx8MHx8fDA%3D" alt="Illustration einer Karte" width="900" height="563" loading="lazy">
+            <div class="card-copy">
+              <h2>Kartografie &amp; offene Karten</h2>
+              <p>Mit OpenStreetMap gemeinsam Geodaten sammeln und Karten gestalten.</p>
+            </div>
+          </a>
+          <a class="card" href="https://unsplash.com/s/photos/surveying-equipment" target="_blank" rel="noopener noreferrer">
+            <img src="https://images.unsplash.com/photo-1778041582108-2e765e738c8a?w=900&amp;auto=format&amp;fit=crop&amp;q=60&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHN1cnZleWluZyUyMGVxdWlwbWVudHxlbnwwfHwwfHx8MA%3D%3D" alt="Vermessungsinstrument im Gelände" width="900" height="563" loading="lazy">
+            <div class="card-copy">
+              <h2>Vermessung im Gelände</h2>
+              <p>Mit präzisen Messungen die Umgebung erfassen und dokumentieren.</p>
+            </div>
+          </a>
+          <a class="card" href="https://qgis.org/" target="_blank" rel="noopener noreferrer">
+            <img src="https://images.unsplash.com/photo-1628158088791-89567a8e84ec?w=900&amp;auto=format&amp;fit=crop&amp;q=60&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHN1cnZleWluZyUyMGVxdWlwbWVudHxlbnwwfHwwfHx8fDA%3D" alt="Vermesser mit Messstab bei der Arbeit im Gelände" width="900" height="563" loading="lazy">
+            <div class="card-copy">
+              <h2>Geodaten &amp; GIS</h2>
+              <p>Räumliche Daten analysieren und mit QGIS sichtbar machen.</p>
+            </div>
+          </a>
+        </div>
+      </section>
+    </div>
   </main>
 
   <footer class="site-footer">
