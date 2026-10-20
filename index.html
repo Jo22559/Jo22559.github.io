@@ -318,6 +318,61 @@
       margin-top: 1.5rem;
     }
 
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+    }
+
+    .news-card {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 1rem;
+      background: var(--surface);
+      box-shadow: 0 0.3rem 1rem rgb(24 43 49 / 4%);
+      transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+    }
+
+    .news-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent);
+      box-shadow: var(--shadow);
+    }
+
+    .news-card img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      background: var(--soft);
+    }
+
+    .news-card-copy {
+      padding: 1.1rem 1.2rem 1.3rem;
+    }
+
+    .news-card time {
+      display: block;
+      margin-bottom: 0.45rem;
+      color: var(--accent-dark);
+      font-size: 0.85rem;
+      font-weight: 650;
+    }
+
+    .news-card h2 {
+      margin-bottom: 0.45rem;
+      font-size: 1.2rem;
+      letter-spacing: -0.02em;
+    }
+
+    .news-card p,
+    .news-status {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 0.93rem;
+    }
+
     .card {
       overflow: hidden;
       border: 1px solid var(--line);
@@ -397,6 +452,10 @@
       .gallery {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
+
+      .news-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
     }
 
     @media (max-width: 520px) {
@@ -420,6 +479,10 @@
       }
 
       .gallery {
+        grid-template-columns: 1fr;
+      }
+
+      .news-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -473,24 +536,10 @@
 
       <section class="tab-panel" id="panel-news" role="tabpanel" aria-labelledby="tab-news" tabindex="0" hidden>
         <p class="eyebrow">News</p>
-        <h1>Neuigkeiten &amp; Stationen</h1>
-        <p class="section-intro">Ein Rückblick auf wichtige Etappen meines bisherigen Weges.</p>
-        <div class="table-scroll">
-          <table>
-            <caption>Werdegang von Johanna</caption>
-            <thead>
-              <tr>
-                <th scope="col">Jahr</th>
-                <th scope="col">Station</th>
-                <th scope="col">Ort</th>
-                <th scope="col">Stichwort</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>2024</td><td>Abitur</td><td>Vallendar</td><td>Schönstätter Marienschule</td></tr>
-              <tr><td>2024</td><td>Studienbeginn</td><td>Mainz</td><td>Hochschule Mainz</td></tr>
-            </tbody>
-          </table>
+        <h1>Neuigkeiten aus der Geoinformatik</h1>
+        <p class="section-intro">Aktuelle Einblicke in Karten, Geodaten und Vermessung.</p>
+        <div class="news-grid" id="news-list" aria-live="polite" aria-busy="true">
+          <p class="news-status" role="status">News werden geladen …</p>
         </div>
       </section>
 
@@ -580,6 +629,97 @@
         }
       });
     });
+
+    async function loadNews() {
+      const newsList = document.querySelector("#news-list");
+      const dateFormatter = new Intl.DateTimeFormat("de-DE", {
+        dateStyle: "long",
+        timeZone: "UTC"
+      });
+
+      try {
+        const response = await fetch("assets/news.json");
+        if (!response.ok) {
+          throw new Error(`News-Datei konnte nicht geladen werden (HTTP ${response.status}).`);
+        }
+
+        const newsItems = await response.json();
+        if (!Array.isArray(newsItems)) {
+          throw new Error("Das News-JSON muss eine Liste von Meldungen enthalten.");
+        }
+
+        const cards = newsItems.map((item) => {
+          const parsedDate =
+            typeof item?.date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(item.date)
+              ? new Date(`${item.date}T00:00:00Z`)
+              : null;
+
+          if (
+            !item ||
+            typeof item.title !== "string" ||
+            typeof item.date !== "string" ||
+            typeof item.summary !== "string" ||
+            typeof item.image !== "string" ||
+            typeof item.imageAlt !== "string" ||
+            !parsedDate ||
+            Number.isNaN(parsedDate.valueOf()) ||
+            parsedDate.toISOString().slice(0, 10) !== item.date ||
+            !item.title.trim() ||
+            !item.summary.trim() ||
+            !item.image.trim() ||
+            !item.imageAlt.trim()
+          ) {
+            throw new Error("Eine News-Meldung enthält fehlende oder ungültige Felder.");
+          }
+
+          const article = document.createElement("article");
+          article.className = "news-card";
+
+          const image = document.createElement("img");
+          image.src = item.image;
+          image.alt = item.imageAlt;
+          image.loading = "lazy";
+          image.width = 900;
+          image.height = 563;
+
+          const copy = document.createElement("div");
+          copy.className = "news-card-copy";
+
+          const date = document.createElement("time");
+          date.dateTime = item.date;
+          date.textContent = dateFormatter.format(parsedDate);
+
+          const title = document.createElement("h2");
+          title.textContent = item.title;
+
+          const summary = document.createElement("p");
+          summary.textContent = item.summary;
+
+          copy.append(date, title, summary);
+          article.append(image, copy);
+          return article;
+        });
+
+        newsList.replaceChildren(...cards);
+        if (cards.length === 0) {
+          const emptyMessage = document.createElement("p");
+          emptyMessage.className = "news-status";
+          emptyMessage.textContent = "Zurzeit gibt es keine aktuellen News.";
+          newsList.append(emptyMessage);
+        }
+      } catch (error) {
+        console.error("News konnten nicht geladen werden.", error);
+        const errorMessage = document.createElement("p");
+        errorMessage.className = "news-status";
+        errorMessage.setAttribute("role", "alert");
+        errorMessage.textContent = "Die News konnten gerade nicht geladen werden. Bitte versuche es später erneut.";
+        newsList.replaceChildren(errorMessage);
+      } finally {
+        newsList.setAttribute("aria-busy", "false");
+      }
+    }
+
+    loadNews();
   </script>
 </body>
 </html>

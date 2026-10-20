@@ -1,0 +1,23 @@
+[
+  {
+    "date": "2026-10-20",
+    "title": "Digitale Karten im Fokus",
+    "summary": "Wie werden aus räumlichen Daten verständliche Karten? Ich beschäftige mich mit digitalen Karten und damit, wie sie Informationen anschaulich vermitteln.",
+    "image": "https://images.unsplash.com/photo-1520299607509-dcd935f9a839?w=900&auto=format&fit=crop&q=70",
+    "imageAlt": "Topografische Karte mit eingezeichneten Wegen und Höhenlinien"
+  },
+  {
+    "date": "2026-10-12",
+    "title": "Geodaten sichtbar machen",
+    "summary": "Geografische Informationssysteme verbinden Datenanalyse und Kartografie. Hier teile ich Einblicke, wie Geodaten mit GIS ausgewertet und visualisiert werden.",
+    "image": "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=900&auto=format&fit=crop&q=70",
+    "imageAlt": "Landschaft mit Bergen und See als Beispiel für räumliche Daten"
+  },
+  {
+    "date": "2026-10-03",
+    "title": "Vermessung im Gelände",
+    "summary": "Präzise Messungen sind eine wichtige Grundlage für aktuelle Geodaten. Ein Einblick in die Arbeit draußen und die Verbindung von Vermessung und Karten.",
+    "image": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=900&auto=format&fit=crop&q=70",
+    "imageAlt": "Weg durch eine offene Landschaft bei Tageslicht"
+  }
+]
