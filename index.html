@@ -374,6 +374,53 @@
       margin-top: 1.5rem;
     }
 
+    .maps-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+    }
+
+    .map-card {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .map-preview {
+      height: 13rem;
+      overflow: hidden;
+      background: var(--soft);
+    }
+
+    .map-preview iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      pointer-events: none;
+    }
+
+    .map-card .card-copy {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 1rem 1.2rem 1.2rem;
+    }
+
+    .map-card .eyebrow {
+      margin-bottom: 0.5rem;
+    }
+
+    .map-card .map-open {
+      margin-top: auto;
+      padding-top: 1rem;
+      color: var(--accent-dark);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
     .news-card {
       overflow: hidden;
       border: 1px solid var(--line);
@@ -505,6 +552,10 @@
       .news-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
+
+      .maps-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 520px) {
@@ -566,6 +617,7 @@
         <button class="tab" id="tab-about" type="button" role="tab" aria-selected="true" aria-controls="panel-about" tabindex="0">About</button>
         <button class="tab" id="tab-news" type="button" role="tab" aria-selected="false" aria-controls="panel-news" tabindex="-1">News</button>
         <button class="tab" id="tab-projects" type="button" role="tab" aria-selected="false" aria-controls="panel-projects" tabindex="-1">Projects</button>
+        <button class="tab" id="tab-maps" type="button" role="tab" aria-selected="false" aria-controls="panel-maps" tabindex="-1">Karten</button>
       </div>
 
       <section class="tab-panel" id="panel-about" role="tabpanel" aria-labelledby="tab-about" tabindex="0">
@@ -642,6 +694,80 @@
           </a>
         </div>
       </section>
+
+      <section class="tab-panel" id="panel-maps" role="tabpanel" aria-labelledby="tab-maps" tabindex="0" hidden>
+        <p class="eyebrow">Interaktive Karten</p>
+        <h1>Meine Karten</h1>
+        <p class="section-intro">Interaktive Karten und 3D-Werkzeuge zum Erkunden. Die Karten und weiterführenden Seiten öffnen sich in einem neuen Tab.</p>
+        <div class="maps-grid">
+          <a class="card map-card" href="assets/map_1_basiskarte.html" target="_blank" rel="noopener noreferrer">
+            <div class="map-preview" aria-hidden="true">
+              <iframe data-src="assets/map_1_basiskarte.html" title="Vorschau der Basiskarte" loading="lazy" tabindex="-1"></iframe>
+            </div>
+            <div class="card-copy">
+              <p class="eyebrow">Karte 01</p>
+              <h2>Basiskarte</h2>
+              <p>Eine interaktive Karte zum Erkunden des Kartenausschnitts.</p>
+              <span class="map-open">Karte öffnen&nbsp;↗</span>
+            </div>
+          </a>
+          <a class="card map-card" href="assets/map_2_punkte.html" target="_blank" rel="noopener noreferrer">
+            <div class="map-preview" aria-hidden="true">
+              <iframe data-src="assets/map_2_punkte.html" title="Vorschau der Punktekarte" loading="lazy" tabindex="-1"></iframe>
+            </div>
+            <div class="card-copy">
+              <p class="eyebrow">Karte 02</p>
+              <h2>Punktekarte</h2>
+              <p>Eine Karte mit eingezeichneten Punkten und Informationen.</p>
+              <span class="map-open">Karte öffnen&nbsp;↗</span>
+            </div>
+          </a>
+          <a class="card map-card" href="assets/map_3_reiseroute.html" target="_blank" rel="noopener noreferrer">
+            <div class="map-preview" aria-hidden="true">
+              <iframe data-src="assets/map_3_reiseroute.html" title="Vorschau der Reiseroute" loading="lazy" tabindex="-1"></iframe>
+            </div>
+            <div class="card-copy">
+              <p class="eyebrow">Karte 03</p>
+              <h2>Reiseroute</h2>
+              <p>Eine interaktive Karte mit einer eingezeichneten Route.</p>
+              <span class="map-open">Karte öffnen&nbsp;↗</span>
+            </div>
+          </a>
+          <a class="card map-card" href="assets/map_4_flaechen_online.html" target="_blank" rel="noopener noreferrer">
+            <div class="map-preview" aria-hidden="true">
+              <iframe data-src="assets/map_4_flaechen_online.html" title="Vorschau der Flächenkarte" loading="lazy" tabindex="-1"></iframe>
+            </div>
+            <div class="card-copy">
+              <p class="eyebrow">Karte 04</p>
+              <h2>Flächenkarte</h2>
+              <p>Eine Karte mit eingezeichneten Flächen.</p>
+              <span class="map-open">Karte öffnen&nbsp;↗</span>
+            </div>
+          </a>
+          <a class="card map-card" href="assets/map_5_3d_gebaeude.html" target="_blank" rel="noopener noreferrer">
+            <div class="map-preview" aria-hidden="true">
+              <iframe data-src="assets/map_5_3d_gebaeude.html" title="Vorschau der 3D-Gebäudekarte" loading="lazy" tabindex="-1"></iframe>
+            </div>
+            <div class="card-copy">
+              <p class="eyebrow">Karte 05</p>
+              <h2>3D-Gebäude Deutschland</h2>
+              <p>Gebäudemodelle in 3D mit Cesium und dem Gebäudelayer von basemap.de.</p>
+              <span class="map-open">Karte öffnen&nbsp;↗</span>
+            </div>
+          </a>
+          <article class="card map-card">
+            <div class="card-copy">
+              <p class="eyebrow">Three.js-Beispiel</p>
+              <h2>Animation mit Keyframes</h2>
+              <p>Ein interaktives Beispiel für Keyframe-Animationen mit Three.js.</p>
+              <p class="map-open">
+                <a href="https://threejs.org/examples/#webgl_animation_keyframes" target="_blank" rel="noopener noreferrer">Beispiel ansehen&nbsp;↗</a><br>
+                <a href="https://threejs.org/docs/" target="_blank" rel="noopener noreferrer">Dokumentation</a>
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
     </div>
   </main>
 
@@ -697,6 +823,12 @@
         item.tabIndex = selected ? 0 : -1;
         document.getElementById(item.getAttribute("aria-controls")).hidden = !selected;
       });
+      if (tab.id === "tab-maps") {
+        document.querySelectorAll("#panel-maps iframe[data-src]").forEach((preview) => {
+          preview.src = preview.dataset.src;
+          delete preview.dataset.src;
+        });
+      }
       if (moveFocus) tab.focus();
     }
 
