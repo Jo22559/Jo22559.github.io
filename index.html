@@ -16,7 +16,21 @@
       --surface: #fff;
       --line: #d8e1dc;
       --soft: #e8f0eb;
+      --shadow: 0 0.8rem 1.8rem rgb(24 43 49 / 10%);
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    [data-theme="dark"] {
+      color-scheme: dark;
+      --ink: #e6eeeb;
+      --muted: #b0c1bb;
+      --accent: #8ed4c2;
+      --accent-dark: #a5e3d3;
+      --paper: #111b1a;
+      --surface: #1b2927;
+      --line: #344643;
+      --soft: #263936;
+      --shadow: 0 0.8rem 1.8rem rgb(0 0 0 / 25%);
     }
 
     * {
@@ -29,6 +43,7 @@
       color: var(--ink);
       font-size: 1rem;
       line-height: 1.65;
+      transition: background-color 200ms ease, color 200ms ease;
     }
 
     a {
@@ -73,6 +88,43 @@
       margin: 0;
       color: var(--muted);
       font-size: 0.9rem;
+      text-align: right;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 1rem;
+    }
+
+    .theme-toggle {
+      flex: 0 0 auto;
+      padding: 0.55rem 0.85rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--ink);
+      font: inherit;
+      font-size: 0.88rem;
+      font-weight: 650;
+      cursor: pointer;
+      transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+    }
+
+    .theme-toggle:hover {
+      transform: translateY(-1px);
+      border-color: var(--accent);
+    }
+
+    :focus-visible {
+      outline: 3px solid #bd6b27;
+      outline-offset: 4px;
+    }
+
+    .theme-toggle:focus-visible,
+    .tab:focus-visible {
+      border-radius: 999px;
     }
 
     main {
@@ -157,6 +209,60 @@
       margin-bottom: 1.5rem;
     }
 
+    .tabs {
+      margin-top: 1.5rem;
+    }
+
+    .tab-list {
+      display: flex;
+      width: fit-content;
+      max-width: 100%;
+      gap: 0.35rem;
+      padding: 0.35rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--soft);
+    }
+
+    .tab {
+      padding: 0.65rem 1rem;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      font: inherit;
+      font-size: 0.92rem;
+      font-weight: 650;
+      cursor: pointer;
+      transition: background-color 180ms ease, color 180ms ease, box-shadow 180ms ease;
+    }
+
+    .tab[aria-selected="true"] {
+      background: var(--surface);
+      color: var(--accent-dark);
+      box-shadow: 0 2px 8px rgb(24 43 49 / 10%);
+    }
+
+    .tab-panel {
+      padding-top: 1.25rem;
+      animation: panel-enter 240ms ease both;
+    }
+
+    .tab-panel[hidden] {
+      display: none;
+    }
+
+    @keyframes panel-enter {
+      from {
+        opacity: 0;
+        transform: translateY(0.5rem);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     .table-scroll {
       overflow-x: auto;
       border: 1px solid var(--line);
@@ -214,12 +320,14 @@
       border-radius: 1rem;
       background: var(--surface);
       text-decoration: none;
-      transition: transform 160ms ease, box-shadow 160ms ease;
+      box-shadow: 0 0.3rem 1rem rgb(24 43 49 / 4%);
+      transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
     }
 
     .card:hover {
       transform: translateY(-3px);
-      box-shadow: 0 0.8rem 1.8rem rgb(24 43 49 / 10%);
+      border-color: var(--accent);
+      box-shadow: var(--shadow);
     }
 
     .card img {
@@ -259,13 +367,51 @@
     }
 
     @media (max-width: 700px) {
+      .site-header .wrap {
+        align-items: flex-start;
+      }
+
+      .header-actions {
+        flex-wrap: wrap;
+        gap: 0.65rem;
+      }
+
+      .header-note {
+        display: none;
+      }
+
       .intro {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
         gap: 1.5rem;
       }
 
       .portrait {
         width: min(100%, 22rem);
+      }
+
+      .gallery {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 520px) {
+      .wrap {
+        width: min(100% - 1.5rem, 70rem);
+      }
+
+      .theme-toggle {
+        padding: 0.45rem 0.7rem;
+        font-size: 0.82rem;
+      }
+
+      .tab-list {
+        width: 100%;
+      }
+
+      .tab {
+        flex: 1;
+        padding-inline: 0.65rem;
+        font-size: 0.85rem;
       }
 
       .gallery {
@@ -279,6 +425,7 @@
       *::after {
         scroll-behavior: auto !important;
         transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
       }
     }
   </style>
@@ -287,7 +434,12 @@
   <header class="site-header">
     <div class="wrap">
       <a class="brand" href="#start">Johanna Beispiel</a>
-      <p class="header-note">Geoinformatik · Vermessung · Geodaten</p>
+      <div class="header-actions">
+        <p class="header-note">Geoinformatik · Vermessung · Geodaten</p>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Zum Nachtmodus wechseln">
+          <span aria-hidden="true">☾</span> <span id="theme-label">Nachtmodus</span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -305,55 +457,60 @@
       </figure>
     </section>
 
-    <section aria-labelledby="journey-title">
+    <section aria-labelledby="overview-title">
       <p class="eyebrow">Ein kurzer Überblick</p>
-      <h2 id="journey-title">Meine Stationen</h2>
-      <p class="section-intro">Etappen, die meinen Blick auf Raum und Landschaft geprägt haben.</p>
-      <div class="table-scroll">
-        <table>
-          <caption>Werdegang von Johanna</caption>
-          <thead>
-            <tr>
-              <th scope="col">Jahr</th>
-              <th scope="col">Station</th>
-              <th scope="col">Ort</th>
-              <th scope="col">Stichwort</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>2024</td><td>Abitur</td><td>Vallendar</td><td>Schönstätter Marienschule</td></tr>
-            <tr><td>2024</td><td>Studienbeginn</td><td>Mainz</td><td>Hochschule Mainz</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <section aria-labelledby="inspiration-title">
-      <p class="eyebrow">Weiterklicken</p>
-      <h2 id="inspiration-title">Dinge, die mich interessieren</h2>
-      <p class="section-intro">Karten, Vermessung im Gelände und digitale Geodaten – drei spannende Seiten meines Studienfachs.</p>
-      <div class="gallery">
-        <a class="card" href="https://www.openstreetmap.org/" target="_blank" rel="noopener noreferrer">
-          <img src="https://images.unsplash.com/photo-1520299607509-dcd935f9a839?w=900&amp;auto=format&amp;fit=crop&amp;q=60&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dG9wb2dyYXBoaWMlMjBtYXB8ZW58MHx8MHx8fDA%3D" alt="Illustration einer Karte" width="900" height="563" loading="lazy">
-          <div class="card-copy">
-            <h3>Kartografie &amp; offene Karten</h3>
-            <p>Mit OpenStreetMap gemeinsam Geodaten sammeln und Karten gestalten.</p>
+      <h2 id="overview-title">Stationen &amp; Interessen</h2>
+      <div class="tabs">
+        <div class="tab-list" role="tablist" aria-label="Seiteninhalte">
+          <button class="tab" id="tab-journey" type="button" role="tab" aria-selected="true" aria-controls="panel-journey" tabindex="0">Meine Stationen</button>
+          <button class="tab" id="tab-inspiration" type="button" role="tab" aria-selected="false" aria-controls="panel-inspiration" tabindex="-1">Meine Interessen</button>
+        </div>
+        <div class="tab-panel" id="panel-journey" role="tabpanel" aria-labelledby="tab-journey" tabindex="0">
+          <p class="section-intro">Etappen, die meinen Blick auf Raum und Landschaft geprägt haben.</p>
+          <div class="table-scroll">
+            <table>
+              <caption>Werdegang von Johanna</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Jahr</th>
+                  <th scope="col">Station</th>
+                  <th scope="col">Ort</th>
+                  <th scope="col">Stichwort</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>2024</td><td>Abitur</td><td>Vallendar</td><td>Schönstätter Marienschule</td></tr>
+                <tr><td>2024</td><td>Studienbeginn</td><td>Mainz</td><td>Hochschule Mainz</td></tr>
+              </tbody>
+            </table>
           </div>
-        </a>
-        <a class="card" href="https://unsplash.com/s/photos/surveying-equipment" target="_blank" rel="noopener noreferrer">
-          <img src="https://images.unsplash.com/photo-1778041582108-2e765e738c8a?w=900&amp;auto=format&amp;fit=crop&amp;q=60&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHN1cnZleWluZyUyMGVxdWlwbWVudHxlbnwwfHwwfHx8MA%3D%3D" alt="Vermessungsinstrument im Gelände" width="900" height="563" loading="lazy">
-          <div class="card-copy">
-            <h3>Vermessung im Gelände</h3>
-            <p>Mit präzisen Messungen die Umgebung erfassen und dokumentieren.</p>
+        </div>
+        <div class="tab-panel" id="panel-inspiration" role="tabpanel" aria-labelledby="tab-inspiration" tabindex="0" hidden>
+          <p class="section-intro">Karten, Vermessung im Gelände und digitale Geodaten – drei spannende Seiten meines Studienfachs.</p>
+          <div class="gallery">
+            <a class="card" href="https://www.openstreetmap.org/" target="_blank" rel="noopener noreferrer">
+              <img src="https://images.unsplash.com/photo-1520299607509-dcd935f9a839?w=900&amp;auto=format&amp;fit=crop&amp;q=60&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dG9wb2dyYXBoaWMlMjBtYXB8ZW58MHx8MHx8fDA%3D" alt="Illustration einer Karte" width="900" height="563" loading="lazy">
+              <div class="card-copy">
+                <h3>Kartografie &amp; offene Karten</h3>
+                <p>Mit OpenStreetMap gemeinsam Geodaten sammeln und Karten gestalten.</p>
+              </div>
+            </a>
+            <a class="card" href="https://unsplash.com/s/photos/surveying-equipment" target="_blank" rel="noopener noreferrer">
+              <img src="https://images.unsplash.com/photo-1778041582108-2e765e738c8a?w=900&amp;auto=format&amp;fit=crop&amp;q=60&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHN1cnZleWluZyUyMGVxdWlwbWVudHxlbnwwfHwwfHx8MA%3D%3D" alt="Vermessungsinstrument im Gelände" width="900" height="563" loading="lazy">
+              <div class="card-copy">
+                <h3>Vermessung im Gelände</h3>
+                <p>Mit präzisen Messungen die Umgebung erfassen und dokumentieren.</p>
+              </div>
+            </a>
+            <a class="card" href="https://qgis.org/" target="_blank" rel="noopener noreferrer">
+              <img src="https://images.unsplash.com/photo-1628158088791-89567a8e84ec?w=900&amp;auto=format&amp;fit=crop&amp;q=60&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHN1cnZleWluZyUyMGVxdWlwbWVudHxlbnwwfHwwfHx8fDA%3D" alt="Vermesser mit Messstab bei der Arbeit im Gelände" width="900" height="563" loading="lazy">
+              <div class="card-copy">
+                <h3>Geodaten &amp; GIS</h3>
+                <p>Räumliche Daten analysieren und mit QGIS sichtbar machen.</p>
+              </div>
+            </a>
           </div>
-        </a>
-        <a class="card" href="https://qgis.org/" target="_blank" rel="noopener noreferrer">
-          <img src="https://images.unsplash.com/photo-1628158088791-89567a8e84ec?w=900&amp;auto=format&amp;fit=crop&amp;q=60&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHN1cnZleWluZyUyMGVxdWlwbWVudHxlbnwwfHwwfHx8MA%3D%3D" alt="Vermesser mit Messstab bei der Arbeit im Gelände" width="900" height="563" loading="lazy">
-          <div class="card-copy">
-            <h3>Geodaten &amp; GIS</h3>
-            <p>Räumliche Daten analysieren und mit QGIS sichtbar machen.</p>
-          </div>
-        </a>
+        </div>
       </div>
     </section>
   </main>
@@ -363,5 +520,56 @@
       <p>Mit Sorgfalt gestaltet · Johanna</p>
     </div>
   </footer>
+  <script>
+    const themeToggle = document.querySelector("#theme-toggle");
+    const themeLabel = document.querySelector("#theme-label");
+    const themeIcon = themeToggle.querySelector("[aria-hidden='true']");
+    const tabs = Array.from(document.querySelectorAll("[role='tab']"));
+
+    function setTheme(theme) {
+      document.documentElement.dataset.theme = theme;
+      const isDark = theme === "dark";
+      themeLabel.textContent = isDark ? "Tagmodus" : "Nachtmodus";
+      themeIcon.textContent = isDark ? "☀" : "☾";
+      themeToggle.setAttribute("aria-label", isDark ? "Zum Light Mode wechseln" : "Zum Night Mode wechseln");
+      localStorage.setItem("theme", theme);
+    }
+
+    const savedTheme = localStorage.getItem("theme");
+    const initialTheme = savedTheme || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.dataset.theme = initialTheme;
+    themeLabel.textContent = initialTheme === "dark" ? "Tagmodus" : "Nachtmodus";
+    themeIcon.textContent = initialTheme === "dark" ? "☀" : "☾";
+    themeToggle.setAttribute("aria-label", initialTheme === "dark" ? "Zum Light Mode wechseln" : "Zum Night Mode wechseln");
+
+    themeToggle.addEventListener("click", () => {
+      setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
+    });
+
+    function activateTab(tab, moveFocus = false) {
+      tabs.forEach((item) => {
+        const selected = item === tab;
+        item.setAttribute("aria-selected", String(selected));
+        item.tabIndex = selected ? 0 : -1;
+        document.getElementById(item.getAttribute("aria-controls")).hidden = !selected;
+      });
+      if (moveFocus) tab.focus();
+    }
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => activateTab(tab));
+      tab.addEventListener("keydown", (event) => {
+        let nextIndex;
+        if (event.key === "ArrowRight") nextIndex = (index + 1) % tabs.length;
+        if (event.key === "ArrowLeft") nextIndex = (index - 1 + tabs.length) % tabs.length;
+        if (event.key === "Home") nextIndex = 0;
+        if (event.key === "End") nextIndex = tabs.length - 1;
+        if (nextIndex !== undefined) {
+          event.preventDefault();
+          activateTab(tabs[nextIndex], true);
+        }
+      });
+    });
+  </script>
 </body>
 </html>
